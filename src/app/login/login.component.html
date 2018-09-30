@@ -1,0 +1,41 @@
+<div class="container my-4 mx-auto text-center">
+  <p class="display-4">Login to UwuHotels</p>
+  <div class="row my-3">
+    <div class="col-md-6 mx-auto">
+      <form class="text-center border border-light p-5" novalidate [formGroup]="myForm" (ngSubmit)="loginEmailUser()">
+
+        <p class="h4 mb-4">Sign in</p>
+
+        <!-- Email -->
+        <input type="email" formControlName="email" class="form-control mb-4" placeholder="E-mail">
+        <div class="form-control-feedback text-left" *ngIf="email.errors && (email.dirty || email.touched)">
+          <p>Email is invalid</p>
+        </div>
+
+        <!-- Password -->
+        <input type="password" formControlName="password" class="form-control mb-4" placeholder="Password">
+
+        <div class="form-control-feedback text-left" *ngIf="password.errors && (password.dirty || password.touched)">
+          <p *ngIf="password.errors.required">Password is required</p>
+          <p *ngIf="password.errors.minlength">Password must be {{password.errors.minlength.requiredLength}} characters
+            long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}}
+            characters </p>
+        </div>
+
+        <!-- Sign in button -->
+        <button mdbBtn color="info" [disabled]="!myForm.valid" block="true" class="my-4" type="submit">Sign in</button>
+
+        <!-- Register -->
+        <p>Not a member?
+          <a href="" routerLink="/register">Register</a>
+        </p>
+
+        <!-- Social login -->
+        <p>or sign in with:</p>
+        <button class="btn btn-danger" (click)="login()"><i class="fa fa-google"></i>
+          &nbsp; Google</button>
+
+      </form>
+    </div>
+  </div>
+</div>
