@@ -8,14 +8,21 @@ import { Router } from "@angular/router";
 })
 export class AuthService {
 
+  uid: String = "loo"
+
   constructor(public afAuth: AngularFireAuth, public router: Router) { }
 
   login() {
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then((user) => {
+      // this.uid = user.user.uid
+      localStorage.setItem('uid', user.user.uid)
+    });
   }
 
   logout() {
     this.afAuth.auth.signOut();
+    localStorage.removeItem('uid');
+    this.router.navigate(['/home'])
   }
 
   userInfo() {

@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-6 mx-auto mt-4">
+    <form class="text-center border border-light p-5" novalidate [formGroup]="myForm" (ngSubmit)="addNewRestaurant()">
+
+      <p class="h4 mb-4">Add Restaurant</p>
+      <input type="text" formControlName="name" class="form-control mb-4" placeholder="Name">
+      <input [owlDateTime]="dt1" formControlName="date" class="form-control mb-4" [owlDateTimeTrigger]="dt1"
+        placeholder="Date Time">
+      <owl-date-time #dt1></owl-date-time>
+      <input style="display: none" type="file" (change)="onFileChange($event)" #fileInput>
+      <div class="file-input-container mb-4">
+        <span class="pl-2">{{fileName}}</span>
+        <span (click)="fileInput.click()" class="btn btn-sm btn-primary">Select File</span>
+      </div>
+      <div>
+        <bar-rating formControlName="rating" [max]="5"></bar-rating>
+      </div>
+      <button class="btn btn-danger" type="submit">Submit</button>
+      <!-- <button (click)="onUpload()">Upload!</button> -->
+    </form>
+  </div>
+</div>
+
+<!-- <div *ngIf="uploadProgress">
+  <progress max="100" [value]="(uploadProgress | async)"></progress>
+  <span>Form Uploaded {{uploadProgress | async}} % </span>
+</div> -->

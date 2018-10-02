@@ -1,0 +1,18 @@
+.file-input-container {
+    // border:1px solid rgba(128, 128, 128, 0.253);
+    border:1px solid #ced4da;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:calc(2.25rem + 2px)
+}
+
+.wc-date-container[_ngcontent-c2]{
+    border:none !important
+}   
+
+.wc-date-container{
+    border:none !important
+}
+
