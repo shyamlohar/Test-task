@@ -8,10 +8,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ReactiveFormsModule } from '@angular/forms'
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { BarRatingModule } from "ngx-bar-rating";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 
 import { AppComponent } from './app.component';
@@ -25,13 +25,15 @@ import { AddRestaurantComponent } from './add-restaurant/add-restaurant.componen
 import { DataqueryService } from './dataquery.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
-const Routes: Routes = [
-    { path: '', component: LoginComponent },
+const Route: Routes = [
+    { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'addrestaurant', component: AddRestaurantComponent, canActivate: [AuthGuardService] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
+    { path: 'welcome', component: WelcomeComponent, canActivate: [AuthGuardService] },
     { path: '**', component: HomeComponent }
 ]
 
@@ -44,15 +46,15 @@ const Routes: Routes = [
         HomeComponent,
         AddRestaurantComponent,
         DashboardComponent,
-        NavbarComponent
+        NavbarComponent,
+        WelcomeComponent,
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        RouterModule.forRoot(Routes),
+        RouterModule.forRoot(Route),
         ReactiveFormsModule,
         MDBBootstrapModule.forRoot(),
-        NgbModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFireStorageModule,
@@ -61,6 +63,7 @@ const Routes: Routes = [
         BarRatingModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
+        GooglePlaceModule
     ],
     providers: [AuthService, DataqueryService, AuthGuardService],
     bootstrap: [AppComponent]

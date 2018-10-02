@@ -1,17 +1,29 @@
-<div class="container mt-3">
-  <h4 class="display-4 text-center">Welcome to Uwu Restaurants</h4>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste alias porro dolorum consequuntur temporibus soluta
-    fuga ipsum corporis rem molestiae pariatur, voluptatum rerum quis, enim consequatur natus placeat distinctio
-    impedit animi veritatis voluptatem dolorem aliquid vitae eos. Quibusdam nam, tempora unde perspiciatis labore
-    dolorem distinctio mollitia ut veritatis necessitatibus pariatur ab! Nisi, incidunt. Iste quo ea, odit temporibus
-    quia veniam repellat numquam doloremque molestiae ut tempora perferendis nam non eligendi debitis eius odio id
-    fugit expedita magnam ad! Sunt recusandae dicta officia earum, minima quidem esse, illo ullam, odio perferendis
-    vero velit perspiciatis. Placeat est, libero odio commodi ipsum eos.</p>
-  <h4 class="text-center mt-4">Take me to login</h4>
-  <div class="text-center">
-    <button class="btn btn-primary mt-2" routerLink="/login">Login</button>
+<div class="bg-container">
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-9 mx-auto">
+        <h4 class=" text-center text-muted" style="font-size:2.5rem">Welcome to</h4>
+        <h4 class=" text-center text-uppercase text-muted" style="font-weight:400">Addstaurant :)</h4>
+        <h4 class="text-center mt-4">Foodie and Love visiting new Restaurants?</h4>
+        <p class="lead">You are at Right Place. in Addstaurant You can keep track of Restaurants.You can add image of
+          Restaurantrs you visit. you can add its location. you can rate it and you
+          can add time
+          and date of visit for keeping perfect track of it.</p>
+        <div class="text-center">
+          <div *ngIf="!isLoggedIn">
+            <button class="btn btn-primary mt-2" routerLink="/login">Login</button>
+            <button class="btn btn-danger mt-2" routerLink="/register">Register</button>
+          </div>
+          <div *ngIf="isLoggedIn">
+            <p class="lead">You are already logged in lets go to</p>
+            <button class="btn btn-primary" routerLink="/dashboard">Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 
 <!-- <button class="btn btn-primary" (click)="fetch()">Fetch</button>
 

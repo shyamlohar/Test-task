@@ -1,11 +1,27 @@
 <div class="container mt-3">
-  <button class="btn btn-primary mb-2" *ngIf="displayAll" (click)=showFav()>Favourites</button>
-  <div class="btn btn-success mb-2" *ngIf="displayFav" (click)=showAll()>Show All</div>
+  <!-- <button class="btn btn-primary mb-2" *ngIf="displayAll" (click)=showFav()>Favourites</button> -->
+  <div class="text-right">
+    <div class="btn-group ml-auto" mdbDropdown>
+      <button mdbDropdownToggle type="button" mdbBtn color="primary" class="dropdown-toggle btn-sm waves-light"
+        mdbWavesEffect>
+        <i class="fa fa-filter"></i>
+      </button>
+
+      <div class="dropdown-menu dropdown-primary dropdown-menu-right">
+        <span class="dropdown-item" (click)="sort('displayFav')">Favourites</span>
+        <span class="dropdown-item" (click)="sort('displayByCity')">City</span>
+        <span class="dropdown-item" (click)="sort('displayBycountry')">Country</span>
+        <span class="dropdown-item" (click)="sort('displayByRating')">Rating</span>
+        <div class="divider dropdown-divider"></div>
+        <span class="dropdown-item" (click)="sort('displayAll')">Show All</span>
+      </div>
+    </div>
+  </div>
   <div class="row mt-2" *ngIf="displayAll">
-    <div class="col-md-3" *ngFor="let each of restros">
-      <mdb-card>
+    <div class="col-md-6 col-lg-4" *ngFor="let each of restros">
+      <mdb-card class="my-4">
         <!--Card image-->
-        <mdb-card-img src={{each.url}} alt="Card image cap"></mdb-card-img>
+        <mdb-card-img src={{each.url}} alt="Card image cap" style="height:15rem; overflow:hidden"></mdb-card-img>
         <!--Card content-->
         <mdb-card-body>
 
@@ -18,6 +34,11 @@
           <mdb-card-text>
             <span class="text-uppercase">Visited On: </span>
             {{each.date}}
+          </mdb-card-text>
+
+          <mdb-card-text>
+            <span class="text-uppercase">Place: </span>
+            {{each.city}},{{each.country}}
           </mdb-card-text>
 
           <mdb-card-text>
@@ -32,10 +53,10 @@
     </div>
   </div>
   <div class="row mt-2" *ngIf="displayFav">
-    <div class="col-md-3" *ngFor="let each of favRestros">
+    <div class="col-md-6 col-lg-4" *ngFor="let each of favRestros">
       <mdb-card *ngIf="each.isfav">
         <!--Card image-->
-        <mdb-card-img src={{each.url}} alt="Card image cap"></mdb-card-img>
+        <mdb-card-img src={{each.url}} alt="Card image cap" style="height:15rem; overflow:hidden"></mdb-card-img>
         <!--Card content-->
         <mdb-card-body>
 
@@ -49,6 +70,120 @@
             <span class="text-uppercase">Visited On: </span>
             {{each.date}}
           </mdb-card-text>
+
+          <mdb-card-text>
+            <span class="text-uppercase">Place: </span>
+            {{each.city}},{{each.country}}
+          </mdb-card-text>
+
+
+          <mdb-card-text>
+            <span class="text-uppercase">rating:</span>&nbsp; &nbsp;{{each.rating}}<i class="fa fa-star"></i>
+          </mdb-card-text>
+
+          <div class="text-right">
+            <span class="btn btn-primary ml-auto waves-light" (click)=addToFav(each) mdbWavesEffect><i class="fa fa-star"></i></span>
+          </div>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
+  <div class="row mt-2" *ngIf="displayByRating">
+    <div class="col-md-6 col-lg-4" *ngFor="let each of byRatingRestros">
+      <mdb-card>
+        <!--Card image-->
+        <mdb-card-img src={{each.url}} alt="Card image cap" style="height:15rem; overflow:hidden"></mdb-card-img>
+        <!--Card content-->
+        <mdb-card-body>
+
+          <!--Title-->
+          <mdb-card-title>
+            <p class="text-uppercase">Restaurant: <span>{{each.name}}</span></p>
+          </mdb-card-title>
+
+          <!--Text-->
+          <mdb-card-text>
+            <span class="text-uppercase">Visited On: </span>
+            {{each.date}}
+          </mdb-card-text>
+
+          <mdb-card-text>
+            <span class="text-uppercase">Place: </span>
+            {{each.city}},{{each.country}}
+          </mdb-card-text>
+
+
+          <mdb-card-text>
+            <span class="text-uppercase">rating:</span>&nbsp; &nbsp;{{each.rating}}<i class="fa fa-star"></i>
+          </mdb-card-text>
+
+          <div class="text-right">
+            <span class="btn btn-primary ml-auto waves-light" (click)=addToFav(each) mdbWavesEffect><i class="fa fa-star"></i></span>
+          </div>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
+  <div class="row mt-2" *ngIf="displayByCity">
+    <div class="col-md-6 col-lg-4" *ngFor="let each of byCityRestros">
+      <mdb-card>
+        <!--Card image-->
+        <mdb-card-img src={{each.url}} alt="Card image cap" style="height:15rem; overflow:hidden"></mdb-card-img>
+        <!--Card content-->
+        <mdb-card-body>
+
+          <!--Title-->
+          <mdb-card-title>
+            <p class="text-uppercase">Restaurant: <span>{{each.name}}</span></p>
+          </mdb-card-title>
+
+          <!--Text-->
+          <mdb-card-text>
+            <span class="text-uppercase">Visited On: </span>
+            {{each.date}}
+          </mdb-card-text>
+
+          <mdb-card-text>
+            <span class="text-uppercase">Place: </span>
+            {{each.city}},{{each.country}}
+          </mdb-card-text>
+
+
+          <mdb-card-text>
+            <span class="text-uppercase">rating:</span>&nbsp; &nbsp;{{each.rating}}<i class="fa fa-star"></i>
+          </mdb-card-text>
+
+          <div class="text-right">
+            <span class="btn btn-primary ml-auto waves-light" (click)=addToFav(each) mdbWavesEffect><i class="fa fa-star"></i></span>
+          </div>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
+  <div class="row mt-2" *ngIf="displayBycountry">
+    <div class="col-md-6 col-lg-4" *ngFor="let each of byCountryRestros">
+      <mdb-card>
+        <!--Card image-->
+        <mdb-card-img src={{each.url}} alt="Card image cap" style="height:15rem; overflow:hidden"></mdb-card-img>
+        <!--Card content-->
+        <mdb-card-body>
+
+          <!--Title-->
+          <mdb-card-title>
+            <p class="text-uppercase">Restaurant: <span>{{each.name}}</span></p>
+          </mdb-card-title>
+
+          <!--Text-->
+          <mdb-card-text>
+            <span class="text-uppercase">Visited On: </span>
+            {{each.date}}
+          </mdb-card-text>
+
+          <mdb-card-text>
+            <span class="text-uppercase">Place: </span>
+            {{each.city}},{{each.country}}
+          </mdb-card-text>
+
 
           <mdb-card-text>
             <span class="text-uppercase">rating:</span>&nbsp; &nbsp;{{each.rating}}<i class="fa fa-star"></i>

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs'
 import { map } from "rxjs/operators";
 import { AuthService } from '../auth.service';
 import { DataqueryService } from "../dataquery.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-restaurant',
@@ -19,10 +20,14 @@ export class AddRestaurantComponent implements OnInit {
   myForm: FormGroup;
   name: FormControl;
   file: FormControl;
+  location: FormControl;
   rating: FormControl;
   date: FormControl;
   fileName: String = "Select Image"
+  city: String;
+  country: String;
   uploadFile: File;
+  invalidForm: Boolean;
   downloadUrl: Observable<String>;
   uploadProgress: Observable<any>;
   uid: String;
@@ -36,7 +41,7 @@ export class AddRestaurantComponent implements OnInit {
 
 
   constructor(private afStorage: AngularFireStorage, private db: AngularFireDatabase,
-    private auth: AuthService, private query: DataqueryService) {
+    private auth: AuthService, private query: DataqueryService, private router: Router) {
 
     this.items = this.db.list('/restro');
     this.auth.userInfo().subscribe(user => this.uid = user.uid)
@@ -48,7 +53,6 @@ export class AddRestaurantComponent implements OnInit {
   }
 
   onFileChange(event) {
-    console.log(event.target.files[0])
     this.uploadFile = event.target.files[0]
     this.fileName = event.target.files[0].name
   }
@@ -56,13 +60,19 @@ export class AddRestaurantComponent implements OnInit {
   createFormControls() {
     this.name = new FormControl('', [
       Validators.required,
-      Validators.minLength(8)
     ])
     this.date = new FormControl('', [
       Validators.required
     ])
-    this.rating = new FormControl('', [
+    this.file = new FormControl('', [
       Validators.required
+    ])
+    this.location = new FormControl('', [
+      Validators.required
+    ])
+    this.rating = new FormControl('', [
+      Validators.required,
+      Validators.minLength(1)
     ])
   }
 
@@ -70,25 +80,67 @@ export class AddRestaurantComponent implements OnInit {
     this.myForm = new FormGroup({
       name: this.name,
       date: this.date,
+      file: this.file,
+      location: this.location,
       rating: this.rating,
     });
   }
 
+  // addNewRestaurant() {
+  //   const id = Math.random().toString(36).substring(2);
+  //   this.ref = this.afStorage.ref(id);
+  //   this.task = this.ref.put(this.uploadFile);
+  //   this.task.snapshotChanges().pipe(
+  //     finalize(() => this.ref.getDownloadURL().subscribe(url => {
+  //       let date = this.myForm.value.date.toString();
+  //       let city = this.city
+  //       let country = this.country
+  //       let data = { id: this.uid, ...this.myForm.value, date, url, city, country }
+  //       this.items.push(data)
+  //       this.router.navigate(['/dashboard'])
+  //     }))
+  //   )
+  //     .subscribe()
+  //   this.uploadProgress = this.task.snapshotChanges()
+  //     .pipe(map(s => (s.bytesTransferred / s.totalBytes) * 100));
+  // }
+
   addNewRestaurant() {
-    console.log(this.myForm.value);
-    const id = Math.random().toString(36).substring(2);
-    this.ref = this.afStorage.ref(id);
-    this.task = this.ref.put(this.uploadFile);
-    this.task.snapshotChanges().pipe(
-      finalize(() => this.ref.getDownloadURL().subscribe(url => {
-        let date = this.myForm.value.date.toString();
-        let data = { id: this.uid, ...this.myForm.value, date, url }
-        this.items.push(data)
-      }))
-    )
-      .subscribe()
-    this.uploadProgress = this.task.snapshotChanges()
-      .pipe(map(s => (s.bytesTransferred / s.totalBytes) * 100));
+    if (!this.myForm.valid) {
+      this.invalidForm = true;
+    }
+    else {
+      console.log('ayy')
+      const id = Math.random().toString(36).substring(2);
+      this.ref = this.afStorage.ref(id);
+      this.task = this.ref.put(this.uploadFile);
+      this.task.snapshotChanges().pipe(
+        finalize(() => this.ref.getDownloadURL().subscribe(url => {
+          let date = this.myForm.value.date.toString();
+          let city = this.city
+          let country = this.country
+          let data = { id: this.uid, ...this.myForm.value, date, url, city, country }
+          this.items.push(data)
+          this.router.navigate(['/dashboard'])
+        }))
+      )
+        .subscribe()
+      this.uploadProgress = this.task.snapshotChanges()
+        .pipe(map(s => (s.bytesTransferred / s.totalBytes) * 100));
+    }
+  }
+
+
+  handleAddressChange(e) {
+    let data = e.formatted_address.split(',').reverse()
+    if (data.length >= 3) {
+      this.country = data[0].trim()
+      this.city = data[2].trim()
+    }
+    else {
+      this.country = data[0].trim()
+      this.city = data[1].trim()
+    }
   }
 
 }

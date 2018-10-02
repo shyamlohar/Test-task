@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-
+import { ActivatedRoute } from "@angular/router";
 
 import { AuthService } from '../auth.service';
 
@@ -14,9 +14,23 @@ export class LoginComponent implements OnInit {
   myForm: FormGroup;
   email: FormControl;
   password: FormControl;
+  loginfail: Boolean
+  isLoggedIn: any;
 
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private route: ActivatedRoute) {
+    this.route.params.subscribe(val => {
+      if (val.login == "fail") {
+        this.loginfail = true;
+      }
+      else {
+        false
+      }
+    })
+    this.authService.afAuth.authState.subscribe(val => {
+      this.isLoggedIn = val;
+    })
+  }
 
   ngOnInit() {
     this.createFormControls();
@@ -44,8 +58,7 @@ export class LoginComponent implements OnInit {
 
   loginEmailUser() {
     if (this.myForm.valid) {
-      console.log(this.myForm.value)
-      // this.authService.emailLogin(this.myForm.value)
+      this.authService.emailLogin(this.myForm.value)
     }
   }
 

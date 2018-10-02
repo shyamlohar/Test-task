@@ -1,14 +1,14 @@
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark blue">
   <mdb-navbar-brand>
-    <a href="#" routerLink='/home' class="navbar-brand">Navbar</a>
+    <a href="#" routerLink='/home' class="navbar-brand">Addrestaurant</a>
   </mdb-navbar-brand>
   <links>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link waves-light" routerLink="/home" mdbWavesEffect>Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link waves-light" routerLink="/" mdbWavesEffect>Home</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link waves-light" routerLink="/dashboard" mdbWavesEffect>Dashboard</a>
+        <a class="nav-link waves-light" *ngIf="isLoggedIn" routerLink="/dashboard" mdbWavesEffect>Dashboard</a>
       </li>
       <li class="nav-item">
         <a class="nav-link waves-light" routerLink="/addrestaurant" *ngIf="isLoggedIn" mdbWavesEffect>Add Restaurnt</a>

@@ -13,7 +13,7 @@ export class AuthGuardService implements CanActivate {
       return true
     }
     console.log('hey')
-    window.alert("You don't have permission to view this page");
+    window.alert("You don't have permission to view this page,Please Login");
     return this.router.navigate['/login']
   }
 }

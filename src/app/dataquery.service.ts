@@ -31,7 +31,6 @@ export class DataqueryService {
   }
 
   getRestaurantsFor() {
-    console.log(localStorage.getItem('uid'))
     this.userRestaurants = this.db.list('/restro', ref => ref.orderByChild('id').equalTo(localStorage.getItem('uid')))
     return this.userRestaurants.snapshotChanges()
   }
